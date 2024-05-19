@@ -25,8 +25,9 @@ function Gallery({
 
   return slides?.length ? (
     <>
+
       <StyledSwiper
-        modules={[Navigation, Thumbs]}
+        modules={[Thumbs]}
         onSlideChange={(slider) => setActiveSlide(slider.realIndex)}
         spaceBetween={20}
         thumbs={{
@@ -34,6 +35,7 @@ function Gallery({
         }}
         loop
       >
+
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <StyleSlide
@@ -44,6 +46,7 @@ function Gallery({
             />
           </SwiperSlide>
         ))}
+
       </StyledSwiper>
 
       <SliderWrapper>
@@ -52,6 +55,10 @@ function Gallery({
           modules={[Navigation]}
           onSwiper={(e) => {
             setThumbsSwiper(e);
+          }}
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = navigationPrevRef.current;
+            swiper.params.navigation.nextEl = navigationNextRef.current;
           }}
           onInit={(swiper) => {
             swiper.navigation.init();
@@ -63,12 +70,9 @@ function Gallery({
           watchSlidesProgress
           loop
           navigation={{
+            enabled: true,
             prevEl: navigationPrevRef.current,
-            nextEl: navigationNextRef.current
-          }}
-          onBeforeInit={(swiper) => {
-            swiper.params.navigation.prevEl = navigationPrevRef.current;
-            swiper.params.navigation.nextEl = navigationNextRef.current;
+            nextEl: navigationNextRef.current,
           }}
         >
           {slides.map((slide, index) => (
@@ -82,11 +86,11 @@ function Gallery({
           ))}
         </StyledSwiperMini>
 
-        <StyledButtonLeft ref={navigationPrevRef}>
+        <StyledButtonLeft ref={ navigationPrevRef }>
           <LeftArrow />
         </StyledButtonLeft>
 
-        <StyledButtonRight ref={navigationNextRef}>
+        <StyledButtonRight ref={ navigationNextRef }>
           <RightArrow />
         </StyledButtonRight>
 
